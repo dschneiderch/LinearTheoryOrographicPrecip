@@ -1,0 +1,13 @@
+Package: LinearTheoryOrographicPrecip
+Type: Package
+Title: Linear Theory of Orographic Precipitation
+Version: 0.1.0
+Author: Dominik Schneider
+Maintainer: The package maintainer <dominik.schneider@colorado.edu>
+Description: This package computes precipitation according to the linear theory of orographic precipitation as outlined in Smith and Barstad 2004. The model includes airflow dynamics, condensed water advection, and downslope evaporation. Vertically integrated steady-state governing equations for condensed water are solved using a Fourier transform. The precipitation field is computed by multiplying the terrain transform by a transfer function that is dependent on largely on wind direction.
+    This code is largely translated from the similarly named QGIS plugin by Andy Aschwanden.
+License: This code should always be free to copy, modify, and/or distribute.
+Encoding: UTF-8
+LazyData: true
+Suggests: testthat
+RoxygenNote: 6.0.1
