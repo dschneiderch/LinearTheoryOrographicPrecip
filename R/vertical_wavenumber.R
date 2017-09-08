@@ -1,6 +1,5 @@
 #' Computes the vertical wavenumber
 #'
-#' @export
 #' @param ny if ny=1 wavenumber is for a 1D profile
 #' @param k sampling freq for x
 #' @param l sampling freq for y

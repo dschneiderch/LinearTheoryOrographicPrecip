@@ -1,6 +1,5 @@
 #' Computes k and l matrixes for FFT
 #'
-#' @export
 #' @param nxpad number of columns
 #' @param nypad number of rows
 #' @param dx distance per grid cell in x direction

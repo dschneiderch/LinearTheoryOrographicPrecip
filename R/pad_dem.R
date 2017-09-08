@@ -1,6 +1,5 @@
 #' Pad DEM with 0 to remove edge effects from FFT ----
 #'
-#' @export
 #' @param h matrix of topo
 #' @param pad (optional) 0 for no padding. Leave blank for automatic padding.
 #' @details This will also remove any NA and convert to 0

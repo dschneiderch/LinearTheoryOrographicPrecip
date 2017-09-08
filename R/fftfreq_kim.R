@@ -4,7 +4,6 @@
 #' @param dy resolution in y direction
 #' @param nxpad number of columns in dem
 #' @param nypad number of rows in in dem
-#' @export
 #' @details as the name suggests, this is Kim's approach. Don't use this because it doesn't seem to replicate the guassian hill example.
 
 fftfreq_kim <- function(dx,dy,nxpad,nypad){
