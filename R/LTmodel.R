@@ -18,7 +18,7 @@ gamma = -5.8e-3#-6.49 #-5.8 #-6.49 #environmental lapse rate deg/km
 Gamma_m = -6.5e-3#-5
 tauc=1000
 tauf=1000
-Nm=0.005
+Nm = 0.005
 lat_coriolis = 0
 
 # Approximate the effective moist static stability (Fraser et al. 1973)
@@ -49,7 +49,6 @@ U <- -sin(winddir * 2 * pi / 360) * windspeed
 V <- cos(winddir * 2 * pi / 360) * windspeed
 
 
-
 # Pad DEM with 0 to remove edge effects from FFT ----
 alist <- pad_dem(h)
 hpad=alist$dem
@@ -72,7 +71,7 @@ hhat=fft(hpad)
 #' Prepare precipitation transfer function relating the Fourier transforms of the terrain hhat(k,l) and the precipitiation field Phat(k,l) (Eq 49)
 
 ## Compute vertical wave number. Ignoring Coriolis effect, which might be important for scales >100 km (per cell? or mtn range?)
-alist=vertical_wavenumber(ny,k,l,method='qgis') #<---- There does not appear to be a big difference if at all betwee kim and qgis  method.
+alist=vertical_wavenumber(dim(h)[2],Nm,U,V,k,l,eps,method='qgis') #<---- There does not appear to be a big difference if at all betwee kim and qgis  method.
 m=alist$m
 sigma=alist$sigma
 
@@ -98,7 +97,7 @@ Ppad=matrix(Ppad,ncol=nypad,byrow=F)
 # fields::image.plot(dem_list$xcoords,dem_list$ycoords,t(Ppad[nrow(Ppad):1,]))
 
 # Extract original region
-P=Ppad[(pad+1):(nx+pad),(pad+1):(ny+pad)]
+P=Ppad[(pad+1):(nrow(h)+pad),(pad+1):(ncol(h)+pad)]
 
 return(P)
 

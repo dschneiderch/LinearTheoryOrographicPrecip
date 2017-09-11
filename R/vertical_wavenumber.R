@@ -1,6 +1,8 @@
 #' Computes the vertical wavenumber
 #'
 #' @param ny if ny=1 wavenumber is for a 1D profile
+#' @param U x component wind speed
+#' @param V y component wind speed
 #' @param k sampling freq for x
 #' @param l sampling freq for y
 #' @param method default is kim's approach. 'qgis' for qgis approach
@@ -9,7 +11,7 @@
 #'
 #'
 
-vertical_wavenumber <- function(ny,k,l,method=NULL,coriollis=FALSE){
+vertical_wavenumber <- function(ny,Nm,U,V,k,l,eps,method=NULL,coriollis=FALSE){
 
   if(ny!=1){
     sigma = U*k + V*l; # intrinsic frequency (s^-1) - pp. 1379

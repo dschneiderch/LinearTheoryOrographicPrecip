@@ -4,10 +4,15 @@
 \alias{vertical_wavenumber}
 \title{Computes the vertical wavenumber}
 \usage{
-vertical_wavenumber(ny, k, l, method = NULL, coriollis = FALSE)
+vertical_wavenumber(ny, Nm, U, V, k, l, eps, method = NULL,
+  coriollis = FALSE)
 }
 \arguments{
 \item{ny}{if ny=1 wavenumber is for a 1D profile}
+
+\item{U}{x component wind speed}
+
+\item{V}{y component wind speed}
 
 \item{k}{sampling freq for x}
 
