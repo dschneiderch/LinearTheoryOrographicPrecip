@@ -4,20 +4,32 @@
 \alias{LTmodel}
 \title{Run the Linear Theory model. THis is the function that calls the others.}
 \usage{
-LTmodel(h, dx, dy)
+LTmodel(h, dx, dy, Pinf, tauc, tauf, windspeed, winddir, trunc = TRUE)
 }
 \arguments{
 \item{h}{matrix of elevation}
 
-\item{dx}{horizontal resolution}
+\item{dx}{horizontal resolution (m)}
 
-\item{dy}{vertical resolution}
+\item{dy}{vertical resolution (m)}
+
+\item{Pinf}{background precip (mm/hr)}
+
+\item{tauc}{condensation time delay (s)}
+
+\item{tauf}{fallout time delay (s)}
+
+\item{windspeed}{windspeed (m/s)}
+
+\item{winddir}{wind direction (m/s)}
+
+\item{trunc}{should the result truncate negative values (default=TRUE)}
 }
 \description{
 Run the Linear Theory model. THis is the function that calls the others.
 }
 \details{
-returns a matrix the same size as h with precip values
+returns a matrix the same size as h with precip mm/hr
 Prepare Fourier transform of the topography ----
 Do 2D FFT of Topography ----
 Prepare precipitation transfer function relating the Fourier transforms of the terrain hhat(k,l) and the precipitiation field Phat(k,l) (Eq 49)
