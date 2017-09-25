@@ -9,11 +9,10 @@
 #' @details the default method is Kim's
 #'
 #'
-#'
 
 vertical_wavenumber <- function(ny,Nm,U,V,k,l,eps,method=NULL,coriollis=FALSE){
 
-  if(ny!=1){
+  if(!is.null(ny)){
     sigma = U*k + V*l; # intrinsic frequency (s^-1) - pp. 1379
 
     if(is.null(method)){
