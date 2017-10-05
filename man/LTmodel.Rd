@@ -4,7 +4,8 @@
 \alias{LTmodel}
 \title{Run the Linear Theory model. THis is the function that calls the others.}
 \usage{
-LTmodel(h, dx, dy, Pinf, tauc, tauf, windspeed, winddir, trunc = TRUE)
+LTmodel(h, dx, dy, Pinf, tauc, tauf, windspeed, winddir, trunc = TRUE,
+  method = "smith")
 }
 \arguments{
 \item{h}{matrix of elevation}
@@ -24,6 +25,8 @@ LTmodel(h, dx, dy, Pinf, tauc, tauf, windspeed, winddir, trunc = TRUE)
 \item{winddir}{wind direction (m/s)}
 
 \item{trunc}{should the result truncate negative values (default=TRUE)}
+
+\item{order}{default = 'smith' (as the method is described in Smith and Barstad 2004); decides whether truncation should happen before or after adding background precip. If 'smith', truncation happens after adding background precip. If otherwise, truncation happens before adding background precip. For 'smith', you will have a lot of zeros if background precip is low whereas with the other method those grid cells will have the value of the background precip}
 }
 \description{
 Run the Linear Theory model. THis is the function that calls the others.
@@ -35,8 +38,11 @@ Do 2D FFT of Topography ----
 Prepare precipitation transfer function relating the Fourier transforms of the terrain hhat(k,l) and the precipitiation field Phat(k,l) (Eq 49)
 Transfer function relating the Fourier transforms of the terrain hhat(k,l) and the precipitiation field Phat(k,l) (Eq 49)
 Perform the inverse Fourier transform on Phat
+Should background precip be added before or after truncation (if truncation happens)?
 Add the background precipitation rate
 Apply the positive cutoff
+Apply the positive cutoff
+Add the background precipitation rate
 library(tidyverse)
 tbl <- tibble(x=as.numeric(dem_list$x),y=as.numeric(dem_list$y),p=Ppad)
 #' Return to matrix

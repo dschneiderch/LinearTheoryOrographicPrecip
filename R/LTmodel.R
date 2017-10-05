@@ -10,9 +10,10 @@
 #' @param windspeed windspeed (m/s)
 #' @param winddir wind direction (m/s)
 #' @param trunc should the result truncate negative values (default=TRUE)
+#' @param order default = 'smith' (as the method is described in Smith and Barstad 2004); decides whether truncation should happen before or after adding background precip. If 'smith', truncation happens after adding background precip. If otherwise, truncation happens before adding background precip. For 'smith', you will have a lot of zeros if background precip is low whereas with the other method those grid cells will have the value of the background precip
 #' @details returns a matrix the same size as h with precip mm/hr
 
-LTmodel <- function(h,dx,dy,Pinf,tauc,tauf,windspeed, winddir, trunc=TRUE){
+LTmodel <- function(h,dx,dy,Pinf,tauc,tauf,windspeed, winddir, trunc=TRUE, method='smith'){
 
 # Parameters
 # Pinf=5 # backgroud precipitation rate (mm hr^-1)
@@ -87,13 +88,25 @@ Phat = (Cw*1i*sigma*hhat)/((1-1i*m*Hw)*(1+1i*sigma*tauc)*(1+1i*sigma*tauf));
 
 #' Perform the inverse Fourier transform on Phat
 Ppad = fft(Phat,inverse=TRUE)/length(Phat)
+Ppad = as.numeric(Ppad) #remove imaginary values
 
+#' Should background precip be added before or after truncation (if truncation happens)?
+if(method=='smith'){
 #' Add the background precipitation rate
 Ppad = Pinf + as.numeric(Ppad)*3600#convert mm/sec to mm/hr
 
 #' Apply the positive cutoff
 if(trunc){
   Ppad[Ppad<0]=0
+}
+
+} else if(method=='LEM') {
+  #' Apply the positive cutoff
+  if(trunc){
+    Ppad[Ppad<0]=0
+  }
+  #' Add the background precipitation rate
+  Ppad = Pinf + as.numeric(Ppad)*3600#convert mm/sec to mm/hr
 }
 
 #' library(tidyverse)
