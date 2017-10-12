@@ -5,7 +5,7 @@
 \title{Run the Linear Theory model. THis is the function that calls the others.}
 \usage{
 LTmodel(h, dx, dy, Pinf, tauc, tauf, windspeed, winddir, trunc = TRUE,
-  method = "smith", trunc_value = 0)
+  method = "smith", trunc_value = 0, saveInt = FALSE, Intfn = NULL)
 }
 \arguments{
 \item{h}{matrix of elevation}
@@ -29,6 +29,10 @@ LTmodel(h, dx, dy, Pinf, tauc, tauf, windspeed, winddir, trunc = TRUE,
 \item{method}{default = 'smith' (as the method is described in Smith and Barstad 2004); decides whether truncation should happen before or after adding background precip. If 'smith', truncation happens after adding background precip. If otherwise, truncation happens before adding background precip. For 'smith', you will have a lot of zeros if background precip is low whereas with the other method those grid cells will have the value of the background precip}
 
 \item{trunc_value}{value below which modeled precip rates should go to zero. This will only make a difference if `method=LEM`}
+
+\item{saveInt}{logical. save fft of dem to 'int' directory of your project. speeds up parameter search 2x-3x}
+
+\item{Intfn}{filename (relative to wd) where to save intermediate FFT matrix}
 }
 \description{
 Run the Linear Theory model. THis is the function that calls the others.

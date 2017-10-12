@@ -12,9 +12,16 @@
 #' @param trunc should the result truncate negative values (default=TRUE)
 #' @param method default = 'smith' (as the method is described in Smith and Barstad 2004); decides whether truncation should happen before or after adding background precip. If 'smith', truncation happens after adding background precip. If otherwise, truncation happens before adding background precip. For 'smith', you will have a lot of zeros if background precip is low whereas with the other method those grid cells will have the value of the background precip
 #' @param trunc_value value below which modeled precip rates should go to zero. This will only make a difference if `method=LEM`
+#' @param saveInt logical. save fft of dem to 'int' directory of your project. speeds up parameter search 2x-3x
+#' @param Intfn filename (relative to wd) where to save intermediate FFT matrix
 #' @details returns a matrix the same size as h with precip mm/hr
 
-LTmodel <- function(h,dx,dy,Pinf,tauc,tauf,windspeed, winddir, trunc=TRUE, method='smith',trunc_value=0){
+LTmodel <- function(h,dx,dy,Pinf,tauc,tauf,windspeed, winddir, trunc=TRUE, method='smith',trunc_value=0,saveInt=FALSE, Intfn=NULL){
+
+  if(saveInt & is.null(Intfn)) {
+    print('You need to specify the filename to save the intermediate file for the FFT')
+    stop()
+  }
 
   # Parameters
   # Pinf=5 # backgroud precipitation rate (mm hr^-1)
@@ -74,7 +81,18 @@ LTmodel <- function(h,dx,dy,Pinf,tauc,tauf,windspeed, winddir, trunc=TRUE, metho
   l=alist$l
 
   #' Do 2D FFT of Topography ----
-  hhat=fft(hpad)
+  if(saveInt){
+    if(file.exists(Intfn)){
+      print('reading FFT from file')
+      hhat=readRDS(Intfn)
+    } else {
+      hhat <- fft(hpad)
+      saveRDS(hhat,file=Intfn)
+    }
+  } else {
+    hhat=fft(hpad)
+  }
+
   # print(hhat[1:2,1:2])
 
   #' Prepare precipitation transfer function relating the Fourier transforms of the terrain hhat(k,l) and the precipitiation field Phat(k,l) (Eq 49)
@@ -89,8 +107,10 @@ LTmodel <- function(h,dx,dy,Pinf,tauc,tauf,windspeed, winddir, trunc=TRUE, metho
 
   #' Perform the inverse Fourier transform on Phat
   Ppad = fft(Phat,inverse=TRUE)/length(Phat)
-  Ppad = as.numeric(Ppad) #remove imaginary values
-
+  suppressWarnings(expr = {
+    Ppad = as.numeric(Ppad) #remove imaginary values
+  }
+  )
   #' Should background precip be added before or after truncation (if truncation happens)?
   if(method=='smith'){
     #' Add the background precipitation rate
