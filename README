@@ -1,0 +1,5 @@
+This package computes precipitation according to the linear theory of orographic precipitation as outlined in [Smith and Barstad 2004](http://dx.doi.org/10.1175/1520-0469(2004)061%3C1377:ALTOOP%3E2.0.CO;2). The model includes airflow dynamics, condensed water advection, and downslope evaporation. Vertically integrated steady-state governing equations for condensed water are solved using a Fourier transform. The precipitation field is computed by multiplying the transformed terrainm by a transfer function that is dependent on largely on wind direction.
+
+This package was written as part of a small research project with the [Earth Surface Processes Modeling group](http://www.gfz-potsdam.de/en/section/earth-surface-process-modelling/) at the German Geoscience Research Institute. The goal of the project was to test whether this precipitation model could be used to efficiently model spatial patterns of precipitation in Landscape Evolution Models.
+
+This code is largely translated from the similarly named [QGIS plugin by Andy Aschwanden](https://github.com/aaschwanden/LinearTheoryOrographicPrecipitation).
